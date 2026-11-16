@@ -2,7 +2,7 @@ workflows:
   android-kmp-demo:
     name: Demo CI/CD KMP (Android)
     # Usa una máquina Linux estándar de Codemagic
-    instance_type: linux_x2
+    instance_type: linux
 
     # Disparador: Se ejecuta automáticamente al hacer un git push a la rama 'main'
     triggering:
