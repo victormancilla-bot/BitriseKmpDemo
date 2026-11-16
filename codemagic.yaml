@@ -1,0 +1,27 @@
+workflows:
+  android-kmp-demo:
+    name: Demo CI/CD KMP (Android)
+    # Usa una máquina Linux estándar de Codemagic
+    instance_type: linux_x2
+
+    # Disparador: Se ejecuta automáticamente al hacer un git push a la rama 'main'
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: 'main'
+          include: true
+
+    scripts:
+      - name: Dar permisos de ejecución a Gradle
+        script: chmod +x gradlew
+
+      - name: (Integración Continua) Ejecutar Pruebas Unitarias
+        script: ./gradlew testDebugUnitTest
+
+      - name: (Entrega Continua) Compilar el APK de Android
+        script: ./gradlew :androidApp:assembleDebug
+
+    # Le dice a Codemagic dónde buscar el archivo APK terminado para que lo puedas descargar
+    artifacts:
+      - androidApp/build/outputs/apk/debug/**/*.apk
